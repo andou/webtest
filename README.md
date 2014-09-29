@@ -4,7 +4,7 @@ A set of functionalities to schedule tests with webpagetest.
 
 ## Installation
 
-- Download [latest master version](https://github.com/andou/pagetest/archive/master.zip) and place it in a folder with writing permission, at least from you.
+- Download [latest master version](https://github.com/andou/webtest/archive/master.zip) and place it in a folder with writing permission, at least from you.
 - Unzip what you've dowloaded.
 - Update the packaged `composer.phar`
 ```shell
