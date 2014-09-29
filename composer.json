@@ -1,0 +1,56 @@
+{
+  "name": "andou/automated-page-test",
+  "description": "",
+  "license": "Mit License",
+  "authors": [
+    {
+      "name": "Antonio Pastorino",
+      "email": "antonio.pastorino@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/andou/automated-page-test/issues"
+  },
+  "require": {
+    "php": ">=5.3.0",
+    "andou/php-webpagetest-wrapper": "*",
+    "andou/autoloader": "*",
+    "andou/inireader": "*",
+    "andou/shelltools": "*",
+    "andou/exceller": "*"
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/andou/autoloader.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/andou/apitool.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/andou/inireader.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/andou/shelltools.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/andou/php-webpagetest-wrapper.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/andou/exceller.git"
+    }
+  ],
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

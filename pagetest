@@ -1,0 +1,34 @@
+#!/usr/bin/php
+<?php
+require_once './vendor/autoload.php';
+$shell = Andou\Shelltools\Shell::getInstance();
+$shell->setFgColor(Andou\Shelltools\Shellcolor::FG_BROWN());
+if ($shell->isCli()):
+  define('BASEPATH', __DIR__);
+  define('INIFILE', BASEPATH . '/config/config.ini');
+  define("IS_SHELL", TRUE);
+
+  date_default_timezone_set('America/Los_Angeles');
+  new Andou\Autoloader\Autoloader(__DIR__);
+  $app = Andou\Automatedpagetest\App::getInstance()
+          ->init(INIFILE, $shell->hasFlag('f'), $shell->hasFlag('c'), $shell->hasFlag('r'), $shell->hasFlag('v'));
+  $app->setOutputProvider($shell);
+  switch ($shell->getArgument(0)) {
+    case "run":
+      $app->run();
+      break;
+    case "clean":
+      $app->clean();
+      break;
+    case "install":
+      $app->install();
+      break;
+    default:
+      $shell->ol("no command provided");
+      break;
+  }
+else:
+  echo "ERROR: this script is callable only from PHPCLI environment.\n";
+  exit(1);
+endif;
+exit(0);
