@@ -23,7 +23,7 @@ class Mailer {
     $this->_app = $app;
     $this->_mailto = $this->_app->getConfigs()->getMailMailto();
     $this->_mailfrom = $this->_app->getConfigs()->getMailMailfrom();
-    $this->_mailnicefrom = $this->_app->getConfigs()->getMailNicefrom();
+    $this->_mailnicefrom = $this->_app->getConfigs()->getMailMailNicefrom();
     $this->_mailobj = $this->_app->getConfigs()->getMailMailobj();
   }
 
@@ -39,7 +39,10 @@ class Mailer {
       $email->FromName = $this->_mailnicefrom;
       $email->Subject = $this->_replacePlaceholders($this->_mailobj);
       $email->Body = "Reports for today";
-      $email->AddAddress($this->_mailto);
+      $addresses = explode(",", $this->_mailto);
+      foreach ($addresses as $address) {
+        $email->AddAddress($address);
+      }
 
       $email->AddAttachment($file_path);
 
