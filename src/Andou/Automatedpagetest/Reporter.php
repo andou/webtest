@@ -85,7 +85,10 @@ class Reporter {
         $row++;
       }
     }
-    $this->_exceller->finalize();
+    $save_path = $this->_exceller->finalize();
+    $mailsent = Mailer::getInstance($this->_app)->sendMail($save_path);
+
+    $this->_app->_echo($mailsent ? "Mail Sent" : "Mail not sent");
 
     foreach ($paths as $p) {
       unlink($p);
