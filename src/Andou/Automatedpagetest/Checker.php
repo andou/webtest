@@ -85,7 +85,7 @@ class Checker {
           $this->_app->_echo("[TEST COMPLETED] $file test is completed!");
         } else {
           $this->_app->_echo("[TEST PENDING] $file test is not completed");
-          $this->_app->_echo($status);
+          //$this->_app->_echo(print_r($status, TRUE));
         }
       }
     }

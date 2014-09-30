@@ -1,13 +1,12 @@
 #!/usr/bin/php
 <?php
-require_once './vendor/autoload.php';
+define('BASEPATH', __DIR__);
+define('INIFILE', BASEPATH . '/config/config.ini');
+define("IS_SHELL", TRUE);
+require_once BASEPATH . '/vendor/autoload.php';
 $shell = Andou\Shelltools\Shell::getInstance();
 $shell->setFgColor(Andou\Shelltools\Shellcolor::FG_BROWN());
 if ($shell->isCli()):
-  define('BASEPATH', __DIR__);
-  define('INIFILE', BASEPATH . '/config/config.ini');
-  define("IS_SHELL", TRUE);
-
   date_default_timezone_set('America/Los_Angeles');
   new Andou\Autoloader\Autoloader(__DIR__);
   $app = Andou\Automatedpagetest\App::getInstance()
