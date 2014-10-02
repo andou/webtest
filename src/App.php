@@ -192,6 +192,17 @@ class App {
     }
     $this->_echo("Installing");
     $this->_echo("");
+
+    $pool_base = BASEPATH;
+    $pool_base.="/" . rtrim(ltrim($this->getConfigs()->getPoolBaseFolder(), "/"), "/");
+    
+    if (!file_exists($pool_base)) {
+      mkdir($pool_base);
+      $this->_echo("Pool base folder created");
+    } else {
+      $this->_echo("Pool base folder alredy exists");
+    }
+
     if (!file_exists($this->_report_folder)) {
       mkdir($this->_report_folder);
       $this->_echo("Report folder created");
