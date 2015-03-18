@@ -42,6 +42,34 @@ class App {
    * @var string
    */
   protected $_report_folder;
+  
+  /**
+   * Folder with executed tests
+   * 
+   * @var string
+   */
+  protected $_executed_folder;
+  
+   /**
+   * Folder with executed scheduled tests
+   * 
+   * @var string
+   */
+  protected $_executed_scheduled_folder;
+  
+   /**
+   * Folder with executed results tests
+   * 
+   * @var string
+   */
+  protected $_executed_results_folder;
+  
+   /**
+   * Folder with executed reports tests
+   * 
+   * @var string
+   */
+  protected $_executed_reports_folder;
 
   /**
    * Should we be?
@@ -152,14 +180,14 @@ class App {
 
     if ($this->_retrieve_results) {
       Checker::getInstance($this)
-              ->fetchStatuses($this->_scheduled_folder, $this->_results_folder);
+              ->fetchStatuses($this->_scheduled_folder, $this->_results_folder, $this->_executed_scheduled_folder);
     }
 
     $this->_echo("");
 
     if ($this->_report_results) {
       Reporter::getInstance($this)
-              ->report($this->_results_folder, $this->_report_folder);
+              ->report($this->_results_folder, $this->_report_folder, $this->_executed_results_folder, $this->_executed_reports_folder);
     }
 
     $this->_echo("");
@@ -230,6 +258,35 @@ class App {
     } else {
       $this->_echo("Tests folder alredy exists");
     }
+    
+    if (!file_exists($this->_executed_folder)) {
+      mkdir($this->_executed_folder);
+      $this->_echo("Executed folder created");
+    } else {
+      $this->_echo("Executed folder alredy exists");
+    }
+    
+    if (!file_exists($this->_executed_scheduled_folder)) {
+      mkdir($this->_executed_scheduled_folder);
+      $this->_echo("Executed scheduled folder created");
+    } else {
+      $this->_echo("Executed scheduled folder alredy exists");
+    } 
+    
+    if (!file_exists($this->_executed_results_folder)) {
+      mkdir($this->_executed_results_folder);
+      $this->_echo("Executed results folder created");
+    } else {
+      $this->_echo("Executed results folder alredy exists");
+    }
+    
+    if (!file_exists($this->_executed_reports_folder)) {
+      mkdir($this->_executed_reports_folder);
+      $this->_echo("Executed results folder created");
+    } else {
+      $this->_echo("Executed results folder alredy exists");
+    }
+    
     $this->_echo("");
     $this->_echo("Application ready to be installed");
   }
@@ -240,6 +297,7 @@ class App {
    * @return Andou\Inireader\Inireader
    */
   public function getConfigs() {
+    echo ("Config: " + $this->_configs);
     return $this->_configs;
   }
 
@@ -283,23 +341,68 @@ class App {
     $this->_results_folder = BASEPATH;
     $this->_results_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolBaseFolder(), "/"), "/");
     $this->_results_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolResultsFolder(), "/"), "/") . "/";
+    
+    
+    $this->_executed_folder = BASEPATH;
+    $this->_executed_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolBaseFolder(), "/"), "/");
+    $this->_executed_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolExecutedFolder(), "/"), "/") . "/";
+  
+    
+    $this->_executed_scheduled_folder = BASEPATH;
+    $this->_executed_scheduled_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolBaseFolder(), "/"), "/");
+    $this->_executed_scheduled_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolExecutedFolder(), "/"), "/");
+    $this->_executed_scheduled_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolExecutedScheduledFolder(), "/"), "/") . "/";
+    
+    
+    $this->_executed_results_folder = BASEPATH;
+    $this->_executed_results_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolBaseFolder(), "/"), "/");
+    $this->_executed_results_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolExecutedFolder(), "/"), "/");
+    $this->_executed_results_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolExecutedResultsFolder(), "/"), "/") . "/";
+    
+    
+    $this->_executed_reports_folder = BASEPATH;
+    $this->_executed_reports_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolBaseFolder(), "/"), "/");
+    $this->_executed_reports_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolExecutedFolder(), "/"), "/");
+    $this->_executed_reports_folder.="/" . rtrim(ltrim($this->getConfigs()->getPoolExecutedReportsFolder(), "/"), "/") . "/";
   }
 
   protected function checkFolders() {
     if (!is_dir($this->_tests_folder)) {
       $this->_echo('insert a valid test pool folder');
       die();
+    } else {
+      $this->_echo('pool is valid!');
     }
     if (!is_dir($this->_scheduled_folder)) {
       $this->_echo('insert a valid test schedule folder');
       die();
+    } else {
+      $this->_echo('pool is valid!');
     }
     if (!is_dir($this->_report_folder)) {
       $this->_echo('insert a valid test report folder');
       die();
+    } else {
+      $this->_echo('pool is valid!');
     }
     if (!is_dir($this->_results_folder)) {
       $this->_echo('insert a valid test results folder');
+      die();
+    }
+    if (!is_dir($this->_executed_folder)) {
+      $this->_echo('insert a valid test executed folder');
+      die();
+    }
+    if (!is_dir($this->_executed_scheduled_folder)) {
+      $this->_echo('insert a valid test executed scheduled folder');
+      die();
+    }
+    if (!is_dir($this->_executed_results_folder)) {
+      $this->_echo('insert a valid test executed results folder');
+      die();
+    }
+    if (!is_dir($this->_executed_reports_folder)) {
+      $this->_echo('insert a valid test executed reports folder');
       die();
     }
   }

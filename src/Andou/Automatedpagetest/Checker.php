@@ -47,12 +47,12 @@ class Checker {
     $this->_max_rounds = $this->_app->getConfigs()->getWebpagetestMaxRounds();
   }
 
-  public function fetchStatuses($fetching_folder, $results_folder) {
+  public function fetchStatuses($fetching_folder, $results_folder, $executed_scheduled_folder) {
     $round = 0;
 
     $this->_app->_echo("Checking statuses");
 
-    while ($this->_fetchStatuses($fetching_folder, $results_folder, $round) && $round < $this->_max_rounds) {
+    while ($this->_fetchStatuses($fetching_folder, $results_folder, $round, $executed_scheduled_folder) && $round < $this->_max_rounds) {
       sleep($this->_sleep_time);
       $round++;
     }
@@ -64,13 +64,14 @@ class Checker {
     }
   }
 
-  protected function _fetchStatuses($fetching_folder, $results_folder, $round) {
+  protected function _fetchStatuses($fetching_folder, $results_folder, $round, $executed_scheduled_folder) {
     $found = 0;
+
     $this->_app->_echo("Checking statuses - round $round");
     $files = scandir($fetching_folder);
     foreach ($files as $file) {
       if (preg_match("/^test(.+).json$/", $file)) {
-
+     
         $found++;
         $filepath = $fetching_folder . $file;
         $test_sched = json_decode(file_get_contents($filepath), TRUE);
@@ -78,6 +79,7 @@ class Checker {
         $this->_app->_echo("Checking $file [$test_id]...");
         $status = json_decode($this->_api->testStatus($test_id), TRUE);
         if ($status['data']['statusCode'] === 200) {
+          copy($filepath, $executed_scheduled_folder . date("Y_m_d_H_i_s") . '_' . $file);
           unlink($filepath);
           $found--;
           $test_result = $this->_api->testResults($test_id);
