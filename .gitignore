@@ -3,3 +3,5 @@ composer.lock
 /config/config.ini
 index.php
 /pool/
+/nbproject/private/
+/nbproject/
